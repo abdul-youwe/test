@@ -1,34 +1,51 @@
-name: Filter JSON on Staging to Main PR
+name: Sync Staging to Main (Exclude JSON files)
 on:
-  pull_request:
+  push:
     branches:
-      - main
-    types: [opened, synchronize]
+      - staging
 
 jobs:
-  filter-json:
-    # Only run this job if the PR is from staging to main
-    if: github.head_ref == 'staging'
+  sync-branches:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: staging
 
       - name: Configure Git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-      - name: Remove JSON files
+          
+      - name: Create branch and exclude JSON files
         run: |
-          # Remove JSON files from tracking
+          # Create a new branch from staging
+          git checkout -b staging-sync
+          
+          # Remove JSON files from git tracking but keep them in the workspace
           git rm -r --cached templates/**/*.json config/**/*.json locales/**/*.json || true
           
-          # Commit changes if any files were removed
-          git diff --staged --quiet || git commit -m "Remove JSON files from staging -> main sync"
+          # Stage other changes
+          git add .
           
-          # Push changes back to the PR branch
-          git push origin staging
+          # Create commit if there are changes
+          git diff --staged --quiet || git commit -m "Sync staging to main (excluding JSON files)"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          branch: staging-sync
+          base: main
+          title: 'Sync: Staging to Main (Excluding JSON files)'
+          body: |
+            Automated PR to sync staging to main branch.
+            
+            Changes included:
+            - All non-JSON files synchronized
+            - Excluded JSON files from:
+              - templates/
+              - config/
+              - locales/
+          delete-branch: true
