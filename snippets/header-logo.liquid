@@ -1,0 +1,41 @@
+{%- if settings.use_logo_svg -%}
+  <div class="header__heading header__heading-inline-logo">
+    {%- if request.page_type == 'index' -%}
+      {{'icon-logo.svg' | inline_asset_content }}
+      <h1 class="visually-hidden">{{ shop.name }}</h1>
+    {%- else -%}
+      <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
+        {{'icon-logo.svg' | inline_asset_content }}
+        <p class="visually-hidden">{{ shop.name }}</p>
+      </a>
+    {%- endif -%}
+  </div>
+{%- else -%}
+  {%- if request.page_type == 'index' -%}
+    <h1 class="header__heading">
+  {%- endif -%}
+  <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
+    {%- if settings.logo != blank -%}
+      <div class="header__heading-logo-wrapper">
+        {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+        {{
+        settings.logo
+        | image_url: width: 200
+        | image_tag:
+        class: 'header__heading-logo motion-reduce',
+        width: 150,
+        height: 150,
+        width: settings.logo_width,
+        alt: logo_alt,
+        sizes: sizes,
+        preload: true
+        }}
+      </div>
+    {%- else -%}
+      <span class="h2">{{ shop.name }}</span>
+    {%- endif -%}
+  </a>
+  {%- if request.page_type == 'index' -%}
+    </h1>
+  {%- endif -%}
+{%- endif -%}

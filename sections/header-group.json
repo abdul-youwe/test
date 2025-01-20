@@ -1,0 +1,189 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement-bar-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement-bar-0"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_line_separator": true,
+        "show_social": false,
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "menu_kLYmF8": {
+          "type": "menu",
+          "settings": {
+            "mega_block_color_scheme": "scheme-3",
+            "heading": "Outdoor Living Desktop",
+            "menu_item_title": "Outdoor Living",
+            "menu_item_link": "",
+            "icon": "<svg width=\"24\" height=\"24\" viewbox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M13.0004 3V4H11.0004V3H13.0004ZM12.0004 10.11L17.3804 11.88L19.7704 12.66L18.6504 16.63C18.1104 16.33 17.7104 15.92 17.5104 15.69L16.0004 13.96L14.4904 15.68C14.1504 16.08 13.2104 17 12.0004 17C10.7904 17 9.85038 16.08 9.51038 15.68L8.00038 13.96L6.49038 15.68C6.29038 15.91 5.89038 16.31 5.35038 16.61L4.22038 12.65L6.62038 11.86L12.0004 10.11ZM15.0004 1H9.00038V4H6.00038C4.90038 4 4.00038 4.9 4.00038 6V10.62L2.71038 11.04C2.45038 11.12 2.23038 11.3 2.11038 11.54C1.99038 11.78 1.96038 12.06 2.05038 12.32L3.95038 19H4.00038C5.60038 19 7.02038 18.12 8.00038 17C8.98038 18.12 10.4004 19 12.0004 19C13.6004 19 15.0204 18.12 16.0004 17C16.9804 18.12 18.4004 19 20.0004 19H20.0504L21.9404 12.32C22.0204 12.06 22.0004 11.78 21.8804 11.54C21.7604 11.3 21.5404 11.12 21.2804 11.04L20.0004 10.62V6C20.0004 4.9 19.1004 4 18.0004 4H15.0004V1ZM6.00038 9.97V6H18.0004V9.97L12.0004 8L6.00038 9.97ZM16.0004 19.68C14.7804 20.53 13.3904 20.96 12.0004 20.96C10.6104 20.96 9.22038 20.53 8.00038 19.68C6.78038 20.53 5.39038 21 4.00038 21H2.00038V23H4.00038C5.38038 23 6.74038 22.65 8.00038 22.01C9.26038 22.65 10.6304 22.98 12.0004 22.98C13.3704 22.98 14.7404 22.66 16.0004 22.01C17.2604 22.66 18.6204 23 20.0004 23H22.0004V21H20.0004C18.6104 21 17.2204 20.53 16.0004 19.68Z\" fill=\"currentColor\"></path>\n</svg>",
+            "highlighted_colour": "#7d3679",
+            "background_override": false,
+            "background_override_content_width": 60,
+            "description": "",
+            "custom_link_label": "",
+            "custom_link_url": "",
+            "menu_tile_1_color_scheme": "",
+            "menu_tile_1_content": "Hello",
+            "menu_tile_1_url": "shopify://pages/contact-mo",
+            "menu_tile_1_expand": "span-1",
+            "menu_tile_2_color_scheme": "",
+            "menu_tile_2_image": "shopify://shop_images/babygurita4.jpg",
+            "menu_tile_2_content": "fdsf",
+            "menu_tile_2_url": "shopify://pages/jimmy-page",
+            "menu_tile_2_expand": "span-1",
+            "menu_tile_3_color_scheme": "",
+            "menu_tile_3_content": "",
+            "menu_tile_3_url": "",
+            "menu_tile_3_expand": "span-1"
+          }
+        },
+        "menu_mrx487": {
+          "type": "menu",
+          "settings": {
+            "mega_block_color_scheme": "",
+            "heading": "Banana mega menu",
+            "menu_item_title": "banana",
+            "menu_item_link": "",
+            "icon": "<!--?xml version=\"1.0\" encoding=\"iso-8859-1\"?-->\n<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->\n<svg fill=\"currentColor\" height=\"800px\" width=\"800px\" version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 485 485\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\">\n<g>\n\t<path d=\"M428.571,87.041V0H324.212v91.371c0,138.175-112.413,250.588-250.588,250.588c-12.975,0-26.001-1-38.716-2.971\n\t\tl-17.298-2.681v67.881l4.394,4.393C71.283,457.861,136.803,485,206.494,485c69.69,0,135.21-27.139,184.488-76.417\n\t\tc42.354-42.354,69.015-98.437,75.07-157.919C471.87,193.518,458.572,135.598,428.571,87.041z M398.571,30v46.371h-44.358V30\n\t\tH398.571z M272.03,289.777c49.445-49.445,78.154-114.096,81.781-183.406h11.763c23.953,78.134,2.326,164.575-56.549,222.847\n\t\tc-58.759,58.157-147.341,79.208-225.667,53.631c-9.631-3.15-18.987-7-27.973-11.488c6.072,0.391,12.161,0.599,18.241,0.599\n\t\tC148.572,371.959,219.033,342.773,272.03,289.777z M369.77,387.369C326.158,430.981,268.171,455,206.494,455\n\t\tc-50.218,0-97.985-15.924-137.543-45.38c1.689,0.595,3.38,1.187,5.085,1.745c25.191,8.226,51.46,12.357,77.848,12.357\n\t\tc19.313,0,38.694-2.215,57.743-6.661c45.62-10.647,87.288-33.649,120.5-66.521c64.6-63.938,89.661-157.809,66.645-244.169h8.418\n\t\tC458.414,196.117,444.095,313.044,369.77,387.369z\"></path>\n</g>\n</svg>",
+            "highlighted_colour": "#e3f415",
+            "background_override": false,
+            "background_override_content_width": 60,
+            "description": "",
+            "custom_link_label": "",
+            "custom_link_url": "",
+            "menu_tile_1_color_scheme": "scheme-2",
+            "menu_tile_1_content": "",
+            "menu_tile_1_url": "",
+            "menu_tile_1_expand": "span-1",
+            "menu_tile_2_color_scheme": "scheme-2",
+            "menu_tile_2_content": "",
+            "menu_tile_2_url": "",
+            "menu_tile_2_expand": "span-1",
+            "menu_tile_3_color_scheme": "scheme-2",
+            "menu_tile_3_content": "",
+            "menu_tile_3_url": "",
+            "menu_tile_3_expand": "span-1"
+          }
+        },
+        "menu_aQUznk": {
+          "type": "menu",
+          "settings": {
+            "mega_block_color_scheme": "scheme-3",
+            "heading": "Furniture Mega menu",
+            "menu_item_title": "Furniture",
+            "menu_item_link": "",
+            "icon": "",
+            "highlighted_colour": "",
+            "background_override": false,
+            "background_override_content_width": 70,
+            "image": "shopify://shop_images/MicrosoftTeams-image_26.png",
+            "description": "",
+            "custom_link_label": "",
+            "custom_link_url": "",
+            "menu_tile_1_color_scheme": "scheme-2",
+            "menu_tile_1_content": "",
+            "menu_tile_1_url": "",
+            "menu_tile_1_expand": "span-1",
+            "menu_tile_2_color_scheme": "scheme-2",
+            "menu_tile_2_content": "",
+            "menu_tile_2_url": "",
+            "menu_tile_2_expand": "span-1",
+            "menu_tile_3_color_scheme": "scheme-2",
+            "menu_tile_3_content": "",
+            "menu_tile_3_url": "",
+            "menu_tile_3_expand": "span-1"
+          }
+        },
+        "menu_BgQKAL": {
+          "type": "menu",
+          "settings": {
+            "mega_block_color_scheme": "scheme-2",
+            "heading": "Apparel Mega Menu",
+            "menu_item_title": "Apparel",
+            "menu_item_link": "shopify://collections/apparel",
+            "icon": "",
+            "highlighted_colour": "#7d3679",
+            "background_override": false,
+            "background_override_content_width": 60,
+            "image": "shopify://shop_images/babygurita4.jpg",
+            "description": "",
+            "custom_link_label": "",
+            "custom_link_url": "",
+            "menu_tile_1_color_scheme": "scheme-2",
+            "menu_tile_1_content": "",
+            "menu_tile_1_url": "",
+            "menu_tile_1_expand": "span-1",
+            "menu_tile_2_color_scheme": "scheme-2",
+            "menu_tile_2_content": "",
+            "menu_tile_2_url": "",
+            "menu_tile_2_expand": "span-1",
+            "menu_tile_3_color_scheme": "scheme-2",
+            "menu_tile_3_content": "",
+            "menu_tile_3_url": "",
+            "menu_tile_3_expand": "span-1"
+          }
+        }
+      },
+      "block_order": [
+        "menu_kLYmF8",
+        "menu_mrx487",
+        "menu_aQUznk",
+        "menu_BgQKAL"
+      ],
+      "settings": {
+        "logo_position": "top-left",
+        "menu": "main-menu",
+        "menu_type_desktop": "mega",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": false,
+        "color_scheme": "scheme-3",
+        "menu_color_scheme": "scheme-2",
+        "menu_capitalize": false,
+        "separate_nav_content": true,
+        "nav_color_scheme": "scheme-5",
+        "content_alignment_mega_menu": "start",
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "enable_customer_avatar": false,
+        "mobile_logo_position": "center",
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

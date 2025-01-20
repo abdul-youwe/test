@@ -1,0 +1,256 @@
+{% comment %} if section has no child columns display a link{% endcomment %}
+
+{%- if section.blocks == blank -%}
+  <div>
+    {% comment %} Apply standalone color to menu link text if set {% endcomment %}
+    <a href="{{ section.settings.top_level_link }}"
+       class="desktop-nav__toggle"
+    {% if section.settings.top_level_link_color != blank and section.settings.top_level_link_color != 'rgba(0,0,0,0)' %} style="color: {{ section.settings.top_level_link_color }}" {% endif %}>
+      {{ section.settings.top_level_link_text | escape }}
+    </a>
+  </div>
+{%- else -%}
+  <desktop-nav-item>
+    {% comment %} Button used for accessibility  {% endcomment %}
+    <button
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            class="desktop-nav__toggle"
+    >
+      {% comment %} Apply standalone color to menu dropdown text if set {% endcomment %}
+      <span {% if section.settings.top_level_link_color != blank and section.settings.top_level_link_color != 'rgba(0,0,0,0)' %} style="color: {{ section.settings.top_level_link_color }}" {% endif %}>
+        {{ section.settings.top_level_link_text | escape }}
+      </span>
+
+      {{ 'icon-caret.svg' | inline_asset_content }}
+    </button>
+    {% comment %} Loop through and display columns {% endcomment %}
+    <ul
+            aria-label="{{ section.settings.top_level_link_text | escape }}"
+            class="desktop-nav__dropdown hidden color-{{ section.settings.menu_color_scheme }}"
+    >
+      {% comment %}Cloes and view all button {% endcomment %}
+      <li class="desktop-nav__dropdown-controls">
+        <a href="{{ section.settings.top_level_link }}">
+          {{ 'view all' | escape }}
+        </a>
+
+        <button
+                type="button"
+                class="desktop-nav__close-btn"
+        >
+          <span>{{ 'Close Menu' | escape }}</span>
+        </button>
+      </li>
+      <ul class="desktop-nav__main-content columns--container">
+        {%- for block in section.blocks -%}
+          {% comment %} Use tailwind class for width {% endcomment %}
+          <li class="{{ block.settings.column_width }} desktop-nav__column {% if block.settings.hide_on_smaller_screens %}landscape-tablet-hidden {% endif %} {% if block.settings.hide_on_medium_screens %}small-laptop-hidden {% endif %}">
+            {% comment %} If has a nav menu assigned {% endcomment %}
+            {%- for link in block.settings.text_menu.links -%}
+              {% comment %} If link object has child links {% endcomment %}
+              {%- if link.links != blank -%}
+                <ul class="desktop-nav__text-links">
+                  <li>
+                    {%- if link.url == '#' or link.url == '/title' -%}
+                      <p class="desktop-nav__heading">
+                        {{ link.title | escape }}
+                      </p>
+                    {%- else -%}
+                      <a
+                              class="desktop-nav__heading"
+                              href="{{ link.url }}"
+                      >
+                        {{ link.title | escape }}
+                      </a>
+                    {%- endif -%}
+                  </li>
+                  {% comment %} If link has child link {% endcomment %}
+                  {%- for subLink in link.links -%}
+                    <li class="desktop-nav__sublink">
+                      {% comment %}If the sublink url comtains title or a hash make it appear as a heading instead of a link{% endcomment %}
+                      {%- if subLink.url == '#' or subLink.url == '/title' -%}
+                        <p class="desktop-nav__heading space--above">
+                          {{ subLink.title |  escape }}
+                        </p>
+                      {%- elsif subLink.links != blank -%}
+                        <a class="desktop-nav__heading space--above"
+                           href="{{ subLink.url }}">
+                          {{ subLink.title | escape }}
+                        </a>
+                        {% comment %}Else display as a link{% endcomment %}
+                      {%- else -%}
+                        <a href="{{ subLink.url }}">
+                          {{ subLink.title | escape }}
+                        </a>
+                      {%- endif -%}
+                    </li>
+                    {% comment %}Any 3rd level links{% endcomment %}
+                    {%- if subLink.links != blank -%}
+                      {%- for thirdLevelLink in subLink.links -%}
+                        <li class="desktop-nav__sublink">
+                          <a href="{{ thirdLevelLink.url }}">
+                            {{ thirdLevelLink.title | escape }}
+                          </a>
+                        </li>
+                      {% endfor %}
+                    {%- endif -%}
+
+                  {% endfor %}
+                </ul>
+              {%- endif -%}
+            {%- endfor -%}
+
+            {% comment %} Render banners. If an image exists {% endcomment %}
+            {%- if block.settings.banner_image != blank -%}
+              <div
+                      class="desktop-nav__banner"
+              >
+              {{
+              block.settings.banner_image
+              | image_url: width: 375
+              | image_tag: sizes: '375, 640', widths: '375, 640'
+              }}
+            {%- if block.settings.banner_link != blank -%}
+              <a
+                      href="{{ block.settings.banner_link }}"
+                      class="desktop-nav_banner-overlay"
+              >
+            {%- else -%}
+              <div class="desktop-nav_banner-overlay">
+            {%- endif -%}
+              <p class="desktop-nav_banner-text">
+                {{ block.settings.banner_text | escape }}
+              </p>
+              {%- if block.settings.banner_link != blank -%}
+                </a>
+              {%- else -%}
+                </div>
+              {%- endif -%}
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </ul>
+  </desktop-nav-item>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Desktop menu item",
+  "class": "desktop-nav-item",
+  "enabled_on": {
+    "groups": ["custom.desktopNav"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "label": "Top Level Link Text",
+      "id": "top_level_link_text",
+      "placeholder": "Camping"
+    },
+    {
+      "type": "url",
+      "label": "Top Level Link",
+      "id": "top_level_link"
+    },
+    {
+      "type": "color",
+      "label": "Top Level Link Color",
+      "id": "top_level_link_color",
+      "info": "Leave blank if using default scheme color."
+    },
+    {
+      "type": "color_scheme",
+      "id": "menu_color_scheme",
+      "label": "Dropdown Colour scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "link_list",
+          "label": "Text Menu",
+          "id": "text_menu",
+          "info": "if add a menu dont fill out the banner options"
+        },
+        {
+          "type": "select",
+          "label": "Column Width",
+          "id": "column_width",
+          "default": "column-w-full",
+          "options": [
+            {
+              "label": "100%",
+              "value": "column-w-full"
+            },
+            {
+              "label": "75%",
+              "value": "column-w-75"
+            },
+            {
+              "label": "60%",
+              "value": "column-w-60"
+            },
+            {
+              "label": "50%",
+              "value": "column-w-50"
+            },
+            {
+              "label": "33%",
+              "value": "column-w-33"
+            },
+            {
+              "label": "25%",
+              "value": "column-w-25"
+            },
+            {
+              "label": "20%",
+              "value": "column-w-20"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "label": "Hide on tablet screen sizes",
+          "id": "hide_on_smaller_screens",
+          "info": "approximately the size of a landscape ipad and smaller"
+        },
+        {
+          "type": "checkbox",
+          "label": "Hide on small laptop screen sizes",
+          "id": "hide_on_medium_screens",
+          "info": "approximately the size of a small laptop and smaller"
+        },
+        {
+          "type": "image_picker",
+          "label": "Banner image",
+          "id": "banner_image",
+          "info": "if you add a banner dont add a menu"
+        },
+        {
+          "type": "text",
+          "label": "Banner text",
+          "id": "banner_text"
+        },
+        {
+          "type": "url",
+          "label": "Banner link",
+          "id": "banner_link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Desktop Nav dropdown"
+    }
+  ]
+}
+{% endschema %}

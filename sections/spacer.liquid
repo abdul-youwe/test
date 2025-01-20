@@ -1,0 +1,83 @@
+<div class="spacer spacer-mobile__{{ section.settings.mobile_size }} spacer-desktop__{{ section.settings.desktop_size }} color-{{ section.settings.color_scheme }} gradient">
+  <hr aria-hidden="true"
+      class="visually-hidden">
+</div>
+
+{% schema %}
+{
+  "name": "spacer",
+  "tag": "div",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.desktopNav"]
+  },
+  "class": "spacer",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "label": "Mobile Size",
+      "id": "mobile_size",
+      "default": "md",
+      "options": [
+        {
+          "label": "Hidden",
+          "value": "hidden"
+        },
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "Medium",
+          "value": "md"
+        },
+        {
+          "label": "Large",
+          "value": "lg"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "label": "Desktop Size",
+      "id": "desktop_size",
+      "default": "md",
+      "options": [
+        {
+          "label": "hidden",
+          "value": "hidden"
+        },
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "Medium",
+          "value": "md"
+        },
+        {
+          "label": "Large",
+          "value": "lg"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spacer"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

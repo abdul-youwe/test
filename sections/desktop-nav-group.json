@@ -1,0 +1,210 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
+{
+  "type": "custom.desktopNav",
+  "name": "Desktop Nav Group",
+  "sections": {
+    "desktop_nav_FJfRHj": {
+      "type": "desktop-nav",
+      "blocks": {
+        "column_LDGiKQ": {
+          "type": "column",
+          "settings": {
+            "text_menu": "cheese-shop-desktop-menu",
+            "column_width": "column-w-75",
+            "hide_on_smaller_screens": false,
+            "hide_on_medium_screens": false,
+            "banner_text": "",
+            "banner_link": ""
+          }
+        },
+        "column_UiMG4m": {
+          "type": "column",
+          "settings": {
+            "text_menu": "",
+            "column_width": "column-w-25",
+            "hide_on_smaller_screens": true,
+            "hide_on_medium_screens": false,
+            "banner_image": "shopify:\/\/shop_images\/cheese-shop-banner.webp",
+            "banner_text": "New Summer Picnic selection",
+            "banner_link": "shopify:\/\/products\/the-collection-snowboard-liquid"
+          }
+        }
+      },
+      "block_order": [
+        "column_LDGiKQ",
+        "column_UiMG4m"
+      ],
+      "settings": {
+        "top_level_link_text": "Cheese shop",
+        "top_level_link": "#",
+        "top_level_link_color": "rgba(0,0,0,0)",
+        "menu_color_scheme": "scheme-1"
+      }
+    },
+    "desktop_nav_DQg73f": {
+      "type": "desktop-nav",
+      "blocks": {
+        "column_bDFjqV": {
+          "type": "column",
+          "settings": {
+            "text_menu": "accompaniments-desktop-nav",
+            "column_width": "column-w-75",
+            "hide_on_smaller_screens": false,
+            "hide_on_medium_screens": false,
+            "banner_text": "",
+            "banner_link": ""
+          }
+        },
+        "column_XLwxGV": {
+          "type": "column",
+          "settings": {
+            "text_menu": "",
+            "column_width": "column-w-20",
+            "hide_on_smaller_screens": true,
+            "hide_on_medium_screens": false,
+            "banner_image": "shopify:\/\/shop_images\/cheese-shop-banner.webp",
+            "banner_text": "Heritage range",
+            "banner_link": "shopify:\/\/blogs\/news\/example-2"
+          }
+        },
+        "column_4RDJbf": {
+          "type": "column",
+          "settings": {
+            "text_menu": "",
+            "column_width": "column-w-20",
+            "hide_on_smaller_screens": false,
+            "hide_on_medium_screens": false,
+            "banner_image": "shopify:\/\/shop_images\/cheese-shop-banner.webp",
+            "banner_text": "Heritage range",
+            "banner_link": "shopify:\/\/blogs\/news\/example-2"
+          }
+        }
+      },
+      "block_order": [
+        "column_bDFjqV",
+        "column_XLwxGV",
+        "column_4RDJbf"
+      ],
+      "settings": {
+        "top_level_link_text": "Accompaniments",
+        "top_level_link": "shopify:\/\/collections\/hydrogen",
+        "top_level_link_color": "",
+        "menu_color_scheme": "scheme-2"
+      }
+    },
+    "desktop_nav_CJYW7h": {
+      "type": "desktop-nav",
+      "blocks": {
+        "column_Ah3m9G": {
+          "type": "column",
+          "settings": {
+            "text_menu": "example-text-menu",
+            "column_width": "column-w-50",
+            "hide_on_smaller_screens": false,
+            "hide_on_medium_screens": false,
+            "banner_text": "",
+            "banner_link": ""
+          }
+        },
+        "column_DDEWzr": {
+          "type": "column",
+          "settings": {
+            "text_menu": "",
+            "column_width": "column-w-25",
+            "hide_on_smaller_screens": false,
+            "hide_on_medium_screens": false,
+            "banner_image": "shopify:\/\/shop_images\/fall-vegetable-box.jpg",
+            "banner_text": "hello hi",
+            "banner_link": ""
+          }
+        },
+        "column_DU8p8M": {
+          "type": "column",
+          "settings": {
+            "text_menu": "",
+            "column_width": "column-w-25",
+            "hide_on_smaller_screens": true,
+            "hide_on_medium_screens": false,
+            "banner_image": "shopify:\/\/shop_images\/fall-vegetable-box.jpg",
+            "banner_text": "hello",
+            "banner_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_Ah3m9G",
+        "column_DDEWzr",
+        "column_DU8p8M"
+      ],
+      "settings": {
+        "top_level_link_text": "Gazebos & parasols",
+        "top_level_link": "shopify:\/\/collections\/hydrogen",
+        "top_level_link_color": "",
+        "menu_color_scheme": "scheme-2"
+      }
+    },
+    "desktop_nav_tN6dUA": {
+      "type": "desktop-nav",
+      "settings": {
+        "top_level_link_text": "Green houses",
+        "top_level_link": "shopify:\/\/collections\/all",
+        "top_level_link_color": "",
+        "menu_color_scheme": ""
+      }
+    },
+    "desktop_nav_679AYC": {
+      "type": "desktop-nav",
+      "settings": {
+        "top_level_link_text": "Aquatics",
+        "top_level_link": "shopify:\/\/collections\/hydrogen",
+        "top_level_link_color": "",
+        "menu_color_scheme": ""
+      }
+    },
+    "desktop_nav_9UFEEH": {
+      "type": "desktop-nav",
+      "settings": {
+        "top_level_link_text": "Fencing",
+        "top_level_link": "shopify:\/\/products\/gift-card",
+        "top_level_link_color": "",
+        "menu_color_scheme": ""
+      }
+    },
+    "desktop_nav_8Uijnd": {
+      "type": "desktop-nav",
+      "settings": {
+        "top_level_link_text": "Electrical",
+        "top_level_link": "shopify:\/\/blogs\/news",
+        "top_level_link_color": "",
+        "menu_color_scheme": ""
+      }
+    },
+    "desktop_nav_EwGGjM": {
+      "type": "desktop-nav",
+      "settings": {
+        "top_level_link_text": "Ornamental",
+        "top_level_link": "shopify:\/\/collections\/hydrogen",
+        "top_level_link_color": "",
+        "menu_color_scheme": ""
+      }
+    }
+  },
+  "order": [
+    "desktop_nav_FJfRHj",
+    "desktop_nav_DQg73f",
+    "desktop_nav_CJYW7h",
+    "desktop_nav_tN6dUA",
+    "desktop_nav_679AYC",
+    "desktop_nav_9UFEEH",
+    "desktop_nav_8Uijnd",
+    "desktop_nav_EwGGjM"
+  ]
+}

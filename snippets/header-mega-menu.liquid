@@ -1,0 +1,365 @@
+{% comment %}
+  Renders a megamenu for the header.
+
+  Usage:
+  {% render 'header-mega-menu' %}
+{% endcomment %}
+
+<nav class="header__inline-menu {% if section.settings.separate_nav_content %}color-{{ section.settings.nav_color_scheme }}{% endif %}">
+  {% if section.settings.separate_nav_content %}
+    <div class="page-width">
+  {% endif %}
+  <ul class="list-menu list-menu--inline" role="list">
+    {%- for link in section.settings.menu.links -%}
+      {%- liquid
+        assign level_one_block = ''
+        assign level_one_type = ''
+        assign tile_has_span = false
+        assign tile_count = 0
+
+        for block in section.blocks
+          assign link_title = link.title | downcase
+          assign link_url = link.url | split: '?' | first
+          assign block_title = block.settings.menu_item_title | downcase
+          assign block_link = block.settings.menu_item_link
+
+          if block_title == link_title
+            unless level_one_type == 'link' or level_one_type == 'link & title'
+              assign level_one_block = block.settings
+              assign level_one_type = 'title'
+            endunless
+          endif
+
+          if block_link == link_url
+            unless level_one_type == 'link & title'
+              assign level_one_block = block.settings
+              assign level_one_type = 'link'
+            endunless
+          endif
+
+          if block_link == link_url and block_title == link_title
+            assign level_one_block = block.settings
+            assign level_one_type = 'link & title'
+          endif
+        endfor
+
+        for i in (1..3)
+          assign image_name = 'menu_tile_' | append: forloop.index | append: '_image'
+          assign expand_name = 'menu_tile_' | append: forloop.index | append: '_expand'
+          assign image = level_one_block[image_name]
+          assign expand = level_one_block[expand_name]
+          if image != blank
+            assign tile_count = tile_count | plus: 1
+          endif
+          if expand == 'span-2'
+            assign tile_has_span = true
+          endif
+        endfor
+
+        assign tile_class = ''
+        if tile_has_span
+          if tile_count == 1 or tile_count == 2 or tile_count == 3
+            assign tile_class = 'grid-cols-3'
+          elsif tile_count == 4
+            assign tile_class = 'grid-cols-4'
+          endif
+        else
+          if tile_count == 1
+            assign tile_class = 'grid-cols-1'
+          elsif tile_count == 2
+            assign tile_class = 'grid-cols-2'
+          elsif tile_count == 3
+            assign tile_class = 'grid-cols-3'
+          elsif tile_count == 4
+            assign tile_class = 'grid-cols-4'
+          endif
+        endif
+      -%}
+
+      <li>
+        {%- if link.links != blank -%}
+          <div>
+            <div id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu">
+              <a
+                id="HeaderMenu-{{ link.handle }}"
+                class="header__menu-item list-menu__item link focus-inset{% if section.settings.menu_capitalize %} uppercase{% endif %}"
+                {%- if level_one_block.highlighted_colour -%}
+                  style="--highlighted-color: {{ level_one_block.highlighted_colour }}"
+                {%- endif -%}
+                href="{{ link.url }}"
+              >
+                <span
+                  class="header__menu-item--icon {%- if link.current %} header__active-menu-item {% endif %}"
+                >
+                  {{ level_one_block.icon }}
+                  {{- link.title | escape -}}
+                </span>
+              </a>
+              <div
+                id="MegaMenu-Content-{{ forloop.index }}"
+                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} motion-reduce global-settings-popup"
+                tabindex="-1"
+              >
+                {% liquid
+                  assign nav_has_images = 'no-image-list'
+                  for childlink in link.links
+                    assign level_two_block = ''
+                    for block in section.blocks
+                      assign sub_link_title = childlink.title | downcase
+                      assign sub_link_url = childlink.url | split: '?' | first
+                      assign sub_block_title = block.settings.menu_item_title | downcase
+                      assign sub_block_link = block.settings.menu_item_link
+
+                      if sub_block_title == sub_link_title
+                        unless level_two_type == 'link' or level_two_type == 'link & title'
+                          assign level_two_block = block.settings
+                          assign level_two_type = 'title'
+                        endunless
+                      endif
+
+                      if sub_block_link == sub_link_url
+                        unless level_two_type == 'link & title'
+                          assign level_two_block = block.settings
+                          assign level_two_type = 'link'
+                        endunless
+                      endif
+
+                      if sub_block_link == sub_link_url and sub_block_title == sub_link_title
+                        assign level_two_block = block.settings
+                        assign level_two_type = 'link & title'
+                      endif
+                    endfor
+                    if level_two_block.image != blank
+                      assign nav_has_images = 'image-list'
+                    endif
+                  endfor
+                %}
+                {% if tile_count >= 1 %}
+                  <div class="mega-menu__list-wrapper page-width">
+                {% endif %}
+                <ul
+                  class="mega-menu__list {% unless tile_count >= 1 %}page-width{% endunless %} mega-menu__list--{{ nav_has_images }}"
+                  role="list"
+                >
+                  {%- for childlink in link.links -%}
+                    {% liquid
+                      assign level_two_block = ''
+                      assign level_two_type = ''
+                    %}
+
+                    {% for block in section.blocks %}
+                      {% liquid
+                        assign sub_link_title = childlink.title | downcase
+                        assign sub_link_url = childlink.url | split: '?' | first
+                        assign sub_block_title = block.settings.menu_item_title | downcase
+                        assign sub_block_link = block.settings.menu_item_link
+
+                        if sub_block_title == sub_link_title
+                          unless level_two_type == 'link' or level_two_type == 'link & title'
+                            assign level_two_block = block.settings
+                            assign level_two_type = 'title'
+                          endunless
+                        endif
+
+                        if sub_block_link == sub_link_url
+                          unless level_two_type == 'link & title'
+                            assign level_two_block = block.settings
+                            assign level_two_type = 'link'
+                          endunless
+                        endif
+
+                        if sub_block_link == sub_link_url and sub_block_title == sub_link_title
+                          assign level_two_block = block.settings
+                          assign level_two_type = 'link & title'
+                        endif
+                      %}
+                    {% endfor %}
+
+                    <li class="{% if has_menu_tiles %}mega-menu__has-tiles{% endif %}">
+                      {%- if childlink.links == blank and level_two_block != blank -%}
+                        <a
+                          class="button button--text"
+                          href="{% if level_two_block.custom_link_url != blank %} {{ level_two_block.custom_link_url }} {% else %} {{ childlink.url }} {% endif %}"
+                        >
+                          <div
+                            class="mega-menu__link mega-menu-block {% if level_two_block.image != blank %}{% if level_two_block.background_override %} mega-menu-block--image-background{% else %} mega-menu-block--image mega-menu-block-image--{{ settings.content_alignment_mega_menu }}{% endif %}{% endif %}{% if level_two_block.image != blank and level_two_block.background_override %}color-{{ level_two_block.mega_block_color_scheme }}{% endif %}"
+                          >
+                            {% if level_two_block.image != blank %}
+                              {{
+                                level_two_block.image
+                                | image_url: width: 300
+                                | image_tag: loading: 'lazy', class: 'mega-menu-block__image'
+                              }}
+                              <div
+                                class="mega-menu-block__content"
+                                {% if level_two_block.background_override %}
+                                  style="--content-width: {{ level_two_block.background_override_content_width }}%;"
+                                {% endif %}
+                              >
+                                <h3
+                                  {% if level_two_block.background_override %}
+                                    class="h4"
+                                  {% endif %}
+                                >
+                                  {% if level_two_block.custom_link_label != blank %}
+                                    {{ level_two_block.custom_link_label }}
+                                  {% else %}
+                                    {{ childlink.title }}
+                                  {% endif %}
+                                </h3>
+                                {%- if level_two_block.description != blank -%}
+                                  <p>
+                                    <small>{{ level_two_block.description }}</small>
+                                  </p>
+                                {%- endif -%}
+                              </div>
+                            {% else %}
+                              {% if level_two_block.custom_link_label != blank %}
+                                {{ level_two_block.custom_link_label }}
+                              {% else %}
+                                {{ childlink.title }}
+                              {% endif %}
+                            {% endif %}
+                          </div>
+                        </a>
+                      {%- else -%}
+                        <div
+                          id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                          href="{{ childlink.url }}"
+                          class="
+                            mega-menu__link mega-menu-block
+                            {% if level_two_block.image != blank %}{% if level_two_block.background_override %} mega-menu-block--image-background{% else %} mega-menu-block--image mega-menu-block-image--{{ section.settings.content_alignment_mega_menu }}{% endif %}{% endif %}
+                            {% if level_two_block.image != blank and level_two_block.background_override %}color-{{ level_two_block.mega_block_color_scheme }}{% endif %}
+                          "
+                        >
+                          {% if level_two_block.image != blank %}
+                            {{
+                              level_two_block.image
+                              | image_url: width: 300
+                              | image_tag: loading: 'lazy', class: 'mega-menu-block__image'
+                            }}
+                          {% endif %}
+                          {% if childlink.links != blank %}
+                            <div
+                              class="mega-menu-block__content"
+                              {% if level_two_block.background_override %}
+                                style="--content-width: {{ level_two_block.background_override_content_width }}%;"
+                              {% endif %}
+                            >
+                              <div
+                                id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                                class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
+                                {% if childlink.current %}
+                                  aria-current="page"
+                                {% endif %}
+                              >
+                                <h3 class="mega-menu__link--level-2-title h4">{{ childlink.title | escape }}</h3>
+                              </div>
+
+                              <ul class="list-unstyled" role="list">
+                                {%- for grandchildlink in childlink.links -%}
+                                  <li>
+                                    <a
+                                      id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                      href="{{ grandchildlink.url }}"
+                                      class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"
+                                      {% if grandchildlink.current %}
+                                        aria-current="page"
+                                      {% endif %}
+                                    >
+                                      {{ grandchildlink.title | escape }}
+                                    </a>
+                                  </li>
+                                {%- endfor -%}
+                              </ul>
+                              {% unless level_two_block.background_override %}
+                                {%- if level_two_block.custom_link_label != blank -%}
+                                  <a
+                                    class="button button--text"
+                                    href="{% if level_two_block.custom_link_url != blank %} {{ level_two_block.custom_link_url }} {% else %} {{ grandchildlink.url }} {% endif %}"
+                                  >
+                                    {{ level_two_block.custom_link_label }}
+                                    {% render 'icon-arrow' %}
+                                  </a>
+                                {% endif %}
+                              {% endunless %}
+                            </div>
+                          {% else %}
+                            <a
+                              class="button button--text"
+                              href="{{ childlink.url }}"
+                            >
+                              {{ childlink.title }}
+                            </a>
+                          {% endif %}
+                        </div>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor %}
+                </ul>
+                {% if tile_count >= 1 %}
+                  <ul class="mega-menu__tiles-wrapper mega-menu__tiles-wrapper--{{ tile_class }}">
+                    {%- for i in (1..3) -%}
+                      {%- liquid
+                        assign color_scheme_name = 'menu_tile_' | append: forloop.index | append: '_color_scheme'
+                        assign image_name = 'menu_tile_' | append: forloop.index | append: '_image'
+                        assign content_name = 'menu_tile_' | append: forloop.index | append: '_content'
+                        assign url_name = 'menu_tile_' | append: forloop.index | append: '_url'
+                        assign expand_name = 'menu_tile_' | append: forloop.index | append: '_expand'
+                        assign color_scheme = level_one_block[color_scheme_name]
+                        assign image = level_one_block[image_name]
+                        assign content = level_one_block[content_name]
+                        assign url = level_one_block[url_name]
+                        assign expand = level_one_block[expand_name]
+                      -%}
+                      {% if image != blank %}
+                        <li class="mega-menu__tiles mega-menu__tiles--{{ expand }}">
+                          <a href="{{ url }}" class="mega-menu__tile-link color-{{ color_scheme }}">
+                            {{
+                              image
+                              | image_url: width: 500
+                              | image_tag: loading: 'lazy', class: 'mega-menu__tile-image'
+                            }}
+                            <div class="mega-menu__tile-content">
+                              {{ content }}
+                            </div>
+                          </a>
+                        </li>
+                      {% endif %}
+                    {%- endfor -%}
+                  </ul>
+                {% endif %}
+
+                {% if tile_count >= 1 %}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {%- else -%}
+          <a
+            id="HeaderMenu-{{ link.handle }}"
+            href="{{ link.url }}"
+            class="header__menu-item list-menu__item link link--text focus-inset{% if section.settings.menu_capitalize %} uppercase{% endif %}"
+            {% if link.current %}
+              aria-current="page"
+            {% endif %}
+            {%- if level_one_block.highlighted_colour -%}
+              style="--highlighted-color: {{ level_one_block.highlighted_colour }}"
+            {%- endif -%}
+          >
+            <span
+              class="header__menu-item--icon{%- if link.current %} header__active-menu-item {% endif %}"
+            >
+              {{ level_one_block.icon }}
+              {{- link.title | escape -}}
+            </span>
+          </a>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+  {% if section.settings.separate_nav_content %}
+    </div>
+  {% endif %}
+</nav>
