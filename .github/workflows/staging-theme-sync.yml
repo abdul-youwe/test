@@ -1,0 +1,24 @@
+name: Sync Staging to Main (Exclude JSON files)
+on:
+    push:
+        branches:
+            - staging
+        paths-ignore:
+            - "templates/**/*.json"
+            - "config/**/*.json"
+            - "locales/**/*.json"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v4
+            - name: merge
+              uses: peter-evans/create-pull-request@v5
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  branch: staging-sync
+                  base: main
+                  title: 'Sync: Staging to Main (Excluding JSON files)'
+                  body: 'Automated PR to sync staging to main, excluding JSON files from templates, config, and locales directories'
