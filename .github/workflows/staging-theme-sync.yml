@@ -27,3 +27,4 @@ jobs:
                   base: main
                   title: 'Sync: Staging to Main (Excluding JSON files)'
                   body: 'Automated PR to sync staging to main, excluding JSON files from templates, config, and locales directories'
+                  delete-branch: true
