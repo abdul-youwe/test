@@ -3,10 +3,6 @@ on:
     push:
         branches:
             - staging
-        paths-ignore:
-            - "templates/**/*.json"
-            - "config/**/*.json"
-            - "locales/**/*.json"
 
 jobs:
     build:
@@ -14,6 +10,14 @@ jobs:
         steps:
             - name: checkout
               uses: actions/checkout@v4
+            
+            # Add step to remove JSON files before creating PR
+            - name: Remove JSON files
+              run: |
+                  rm -f templates/**/*.json || true
+                  rm -f config/**/*.json || true
+                  rm -f locales/**/*.json || true
+                  
             - name: merge
               uses: peter-evans/create-pull-request@v5
               with:
