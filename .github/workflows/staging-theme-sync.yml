@@ -7,6 +7,7 @@ on:
 
 jobs:
   filter-json:
+    if: github.base_ref == 'main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -15,31 +16,58 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}  # This will checkout staging
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
+      - name: Debug Information
+        run: |
+          echo "Current branch: $(git branch --show-current)"
+          echo "Files being changed:"
+          git diff --name-only origin/main
+
       - name: Filter JSON changes
         run: |
-          # List JSON files that would be changed
-          echo "Checking for JSON file changes..."
-          CHANGED_JSON_FILES=$(git diff --name-only origin/main | grep -E '.*\.json$' || true)
+          # First, stash any uncommitted changes
+          git stash -u
           
-          if [ ! -z "$CHANGED_JSON_FILES" ]; then
-            echo "Found JSON changes to filter out:"
-            echo "$CHANGED_JSON_FILES"
-            
-            # Remove JSON files from the commit
-            git rm -r --cached 'templates/**/*.json' 'config/**/*.json' 'locales/**/*.json' || true
-            
-            # Stage remaining changes
-            git add .
-            
-            # Commit and push changes
-            git commit -m "Remove JSON files from PR to main" || echo "No changes to commit"
-            git push origin HEAD:${{ github.head_ref }} --force
-            
-            echo "Successfully filtered out JSON changes"
+          # Create a clean branch for our changes
+          git checkout -b temp-filter-branch
+          
+          # Get list of all files that are being changed
+          FILES_CHANGED=$(git diff --name-only origin/main)
+          echo "Files changed: $FILES_CHANGED"
+          
+          # Reset to main's state
+          git reset --hard origin/main
+          
+          # Apply non-JSON changes
+          for file in $FILES_CHANGED; do
+            if [[ $file != *.json ]]; then
+              echo "Keeping change: $file"
+              git checkout ${{ github.head_ref }} -- "$file"
+            else
+              echo "Filtering out JSON file: $file"
+            fi
+          done
+          
+          # Commit and push if there are changes
+          git add .
+          if git diff --staged --quiet; then
+            echo "No non-JSON changes to commit"
           else
-            echo "No JSON files to filter"
+            git commit -m "Apply non-JSON changes only"
+            git push origin temp-filter-branch:${{ github.head_ref }} --force
           fi
+
+      - name: Add PR Comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            🔔 JSON files have been automatically filtered out from this PR:
+            - Any .json files in templates/
+            - Any .json files in config/
+            - Any .json files in locales/
+            
+            Only non-JSON changes will be merged to main.
