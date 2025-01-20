@@ -20,28 +20,26 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
-      - name: Debug Information
+      # Set Git identity first
+      - name: Configure Git
         run: |
-          echo "Current branch: $(git branch --show-current)"
-          echo "Files being changed:"
-          git diff --name-only origin/main
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Filter JSON changes
         run: |
-          # First, stash any uncommitted changes
-          git stash -u
-          
-          # Create a clean branch for our changes
+          # Create a new branch
           git checkout -b temp-filter-branch
           
-          # Get list of all files that are being changed
+          # Get list of changed files
           FILES_CHANGED=$(git diff --name-only origin/main)
-          echo "Files changed: $FILES_CHANGED"
+          echo "Changed files:"
+          echo "$FILES_CHANGED"
           
           # Reset to main's state
           git reset --hard origin/main
           
-          # Apply non-JSON changes
+          # Apply only non-JSON changes
           for file in $FILES_CHANGED; do
             if [[ $file != *.json ]]; then
               echo "Keeping change: $file"
@@ -51,10 +49,11 @@ jobs:
             fi
           done
           
-          # Commit and push if there are changes
-          git add .
+          # Commit and push changes
+          git add -A
           if git diff --staged --quiet; then
             echo "No non-JSON changes to commit"
+            exit 0
           else
             git commit -m "Apply non-JSON changes only"
             git push origin temp-filter-branch:${{ github.head_ref }} --force
@@ -65,9 +64,5 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            🔔 JSON files have been automatically filtered out from this PR:
-            - Any .json files in templates/
-            - Any .json files in config/
-            - Any .json files in locales/
-            
+            JSON files have been automatically filtered out from this PR.
             Only non-JSON changes will be merged to main.
