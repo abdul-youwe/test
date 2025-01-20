@@ -1,30 +1,34 @@
-name: Sync Staging to Main (Exclude JSON files)
+name: Filter JSON on Staging to Main PR
 on:
-    push:
-        branches:
-            - staging
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: checkout
-              uses: actions/checkout@v4
-            
-            # Add step to remove JSON files before creating PR
-            - name: Remove JSON files
-              run: |
-                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
-                  git config --global user.name "github-actions[bot]"
-                  git rm -rf --cached templates/**/*.json config/**/*.json locales/**/*.json || true
-                  git commit -m "Remove JSON files" || true
-                  
-            - name: merge
-              uses: peter-evans/create-pull-request@v5
-              with:
-                  token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-                  branch: staging-sync
-                  base: main
-                  title: 'Sync: Staging to Main (Excluding JSON files)'
-                  body: 'Automated PR to sync staging to main, excluding JSON files from templates, config, and locales directories'
-                  delete-branch: true
+  filter-json:
+    # Only run this job if the PR is from staging to main
+    if: github.head_ref == 'staging'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: staging
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Remove JSON files
+        run: |
+          # Remove JSON files from tracking
+          git rm -r --cached templates/**/*.json config/**/*.json locales/**/*.json || true
+          
+          # Commit changes if any files were removed
+          git diff --staged --quiet || git commit -m "Remove JSON files from staging -> main sync"
+          
+          # Push changes back to the PR branch
+          git push origin staging
