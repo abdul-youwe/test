@@ -7,7 +7,8 @@ on:
 
 jobs:
   filter-json:
-    if: github.base_ref == 'main'
+    # Skip if the event was triggered by the bot
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -20,7 +21,6 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
-      # Set Git identity first
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
@@ -28,13 +28,21 @@ jobs:
 
       - name: Filter JSON changes
         run: |
-          # Create a new branch
-          git checkout -b temp-filter-branch
-          
           # Get list of changed files
           FILES_CHANGED=$(git diff --name-only origin/main)
           echo "Changed files:"
           echo "$FILES_CHANGED"
+          
+          # Count JSON files
+          JSON_COUNT=$(echo "$FILES_CHANGED" | grep -c "\.json$" || true)
+          
+          if [ "$JSON_COUNT" -eq "0" ]; then
+            echo "No JSON files to filter"
+            exit 0
+          fi
+          
+          # Create a new branch
+          git checkout -b temp-filter-branch
           
           # Reset to main's state
           git reset --hard origin/main
@@ -53,16 +61,16 @@ jobs:
           git add -A
           if git diff --staged --quiet; then
             echo "No non-JSON changes to commit"
-            exit 0
           else
             git commit -m "Apply non-JSON changes only"
             git push origin temp-filter-branch:${{ github.head_ref }} --force
           fi
 
       - name: Add PR Comment
+        if: success()
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            JSON files have been automatically filtered out from this PR.
+            ✅ JSON files have been filtered out from this PR.
             Only non-JSON changes will be merged to main.
